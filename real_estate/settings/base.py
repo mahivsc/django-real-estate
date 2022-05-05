@@ -1,4 +1,6 @@
 from pathlib import Path
+from pickle import TRUE
+from django.core.management.utils import get_random_secret_key
 
 import environ
 
@@ -39,6 +41,8 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'django_countries',
     'phonenumber_field',
+    'djoser',
+    'rest_framework_simplejwt',
 ]
 
 LOCAL_APPS = [
@@ -136,6 +140,50 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.User"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES":(
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES":(
+        "Bearer",
+        "JWT",
+    ),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': env('SIGNING_KEY'),
+    'AUTH_HEADER_NAME': "HTTP_AUTHORIZATION",
+    'ACCESS_TOKEN_CLASS':("rest_framework_simplejwt.tokens.AccessToken",),
+
+}
+
+DJOSER = {
+    "LOGIN_FIELD": "email",
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "USERNAME_CHANGED_EMAIL_CONFORMATION": True,
+    "PASSWORD_CHANGED_EMAIL_CONFORMATION": True,
+    "SEND_CONFORMATION_EMAIL": True,
+    "PASSWORD_REST_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
+    "SET_PASSWORD_RETYPE": True,
+    "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
+    "SERIALIZERS":{
+        "user_create": "apps.users.serializers.CreateUserSerializer",
+        "user": "apps.users.serializers.UserSerializer",
+        "current_user": "apps.users.serializers.UserSerializer",
+        "user_delete": "djoser.serializer.UserDeleteSerializer",
+    }
+
+}
+
+
 
 import logging
 import logging.config
