@@ -50,6 +50,8 @@ LOCAL_APPS = [
     'apps.profiles',
     'apps.ratings',
     'apps.users',
+    'apps.properties',
+    'apps.enquiries',
 ]
 
 
@@ -167,13 +169,14 @@ DJOSER = {
     "LOGIN_FIELD": "email",
     "USER_CREATE_PASSWORD_RETYPE": True,
     "USERNAME_CHANGED_EMAIL_CONFORMATION": True,
-    "PASSWORD_CHANGED_EMAIL_CONFORMATION": True,
     "SEND_CONFORMATION_EMAIL": True,
-    "PASSWORD_REST_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
     "SET_PASSWORD_RETYPE": True,
+    "PASSWORD_CHANGED_EMAIL_CONFORMATION": True,
     "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
     "ACTIVATION_URL": "activate/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": True,
+    "SEND_CONFORMATION_EMAIL": True,
     "SERIALIZERS":{
         "user_create": "apps.users.serializers.CreateUserSerializer",
         "user": "apps.users.serializers.UserSerializer",
